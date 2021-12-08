@@ -36,7 +36,7 @@ if ($_POST) {
         $account->phone1 = $_POST['phone1'];
         $account->phone2 = $_POST['phone2'];
         $account->phone3 = $_POST['phone3'];
-
+//проверка существования аккаунта с таким же email при добавлении нового аккаунта
         if($account->validateEmail()){
 
             // создание товара 

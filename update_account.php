@@ -44,6 +44,10 @@ if ($_POST) {
         $account->phone1 = $_POST['phone1'];
         $account->phone2 = $_POST['phone2'];
         $account->phone3 = $_POST['phone3'];
+
+        //проверка существования аккаунта с другим id и таким же email при обновлении аккаунта
+        if($account->validateEmailUpdate()){
+
         // обновление аккаунта 
             if ($account->update()) {
                 echo "<p class='successtext'>Account was successfully updated.</p>";
@@ -53,6 +57,10 @@ if ($_POST) {
             else {
                 echo "<p class='failtext'> Account wasn't updated.</p>";
             }
+        }
+        else {
+            echo "<p class='failtext'>Account wasn't updated. Another account with this email already exists!</p>";
+    }
     }
     else {
         echo "<p class='failtext'> Account wasn't updated! Some of required fields are empty!</p>";

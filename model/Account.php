@@ -169,7 +169,7 @@ function update() {
             return false;
         }
     }
-
+    //проверка существования аккаунта с таким же email при добавлении нового аккаунта
     function validateEmail(){
         $query = "SELECT * FROM " . $this->table_name . "
                 WHERE email=:email";
@@ -184,6 +184,29 @@ function update() {
         $stmt->execute();
         if ($stmt->rowCount() > 0){
             return false;
+        }
+        return true;
+    }
+//проверка существования аккаунта с другим id и таким же email при обновлении аккаунта
+    function validateEmailUpdate(){
+        $query = "SELECT * FROM " . $this->table_name . "
+                WHERE email=:email";
+
+        // подготовка запроса 
+        $stmt = $this->conn->prepare($query);
+
+        $this->email=htmlspecialchars(strip_tags($this->email));
+
+        $stmt->bindValue(":email", $this->email);
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0){
+            foreach ($stmt as $row) {
+                if ($row["id"] != $this->id){
+                    return false;
+                }
+            }
         }
         return true;
     }
